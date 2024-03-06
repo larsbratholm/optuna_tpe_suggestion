@@ -1,0 +1,79 @@
+repos:
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: ["--unsafe"]
+      - id: check-added-large-files
+
+  - repo: https://github.com/myint/docformatter
+    rev: v1.5.0
+    hooks:
+      - id: docformatter
+        name: Fixes docstring formatting
+        args:
+          - --wrap-summaries=110
+          - --wrap-descriptions=110
+          - --pre-summary-newline
+          - --make-summary-multi-line
+          - --in-place
+
+  - repo: https://github.com/myint/autoflake
+    rev: v1.6.1
+    hooks:
+      - id: autoflake
+        name: Removes unused variables
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --expand-star-imports
+          - --ignore-init-module-imports
+
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.10.1
+    hooks:
+      - id: isort
+        name: Sorts imports
+        args: [
+          # Align isort with black formatting
+          "--multi-line=3",
+          "--trailing-comma",
+          "--force-grid-wrap=0",
+          "--use-parentheses",
+          "--line-width=110",
+        ]
+
+  - repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+      - id: black
+        name: Fixes code formatting
+        language_version: python3
+        args: ["--line-length=110"]
+
+  - repo: local
+    hooks:
+      - id: system
+        name: MyPy
+        entry: python -m mypy.__main__
+        language: system
+        files: \.py$
+        args:
+          - --strict
+          - --implicit-reexport
+          - --ignore-missing-imports
+
+  - repo: local
+    hooks:
+    -   id: system
+        name: PyLint
+        entry: python -m pylint.__main__
+        language: system
+        files: \.py$
+        args:
+          - --max-line-length=110
+          - -d invalid-name
+          - -d too-few-public-methods
