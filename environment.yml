@@ -1,0 +1,10 @@
+channels:
+  - conda-forge
+dependencies:
+  - numpy>=1.23
+  - loguru
+  - optuna>=3.2
+  - pre-commit=2.20.0
+  - mypy=1.7.0
+  - scikit-learn
+  - matplotlib
